@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 def k_fold_cv(model_class, X, y, k=5, **model_params):
     """
