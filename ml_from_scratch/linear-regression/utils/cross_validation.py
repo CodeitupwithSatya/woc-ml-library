@@ -1,8 +1,9 @@
 import numpy as np
+import pandas as pd
 
 def k_fold_cv(model_class, X, y, k=5, **model_params):
     """
-    Generic K-Fold Cross Validation for regression models.
+    Generic K-Fold Cross Validation for regression models
     """
     m = X.shape[0]
     indices = np.arange(m)
