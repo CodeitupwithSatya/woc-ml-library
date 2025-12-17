@@ -32,7 +32,7 @@ class NeuralNetworkScratch:
         self.A2 = Activation.softmax(self.Z2)
         return self.A2
     
-        def one_hot(self, y):
+    def one_hot(self, y):
         y = y.astype(int)
         one_hot_y = np.zeros((10, y.size))
         one_hot_y[y, np.arange(y.size)] = 1
