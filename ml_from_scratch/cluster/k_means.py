@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from ml_from_scratch.utils.distance import euclidean_distance
+from .utils.distance import euclidean_distance
 
 
 class KMeansFromScratch:
@@ -78,7 +78,7 @@ class KMeansFromScratch:
         return labels.astype(int)
 
     def plot(self):
-        # PCA for visualization (same logic you wrote)
+        # PCA for visualization 
         cov = np.cov(self.X.T)
         eigvals, eigvecs = np.linalg.eigh(cov)
         idx = eigvals.argsort()[::-1]
