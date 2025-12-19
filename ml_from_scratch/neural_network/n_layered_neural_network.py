@@ -8,7 +8,7 @@ from .optimizers import Optimizer
 class NeuralNetworkScratch:
     def __init__(self, layer_dims, optimizer="sgd", lr=0.01):
         """
-        layer_dims example: [784, 128, 64, 10]
+        layer_dims example: [128, 64, 10]
         """
         self.layers = []
         self.optimizer = Optimizer(method=optimizer, lr=lr)

@@ -86,23 +86,4 @@ class LinearRegression:
         """
         return X @ self.weights
 
-    def score(self, X, y):
-        """
-        Compute R² score.
-
-        Parameters
-        ----------
-        X : ndarray
-        y : ndarray
-
-        Returns
-        -------
-        r2 : float
-        """
-        y = y.flatten()
-        y_pred = self.predict(X).flatten()
-
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-
-        return 1 - ss_res / ss_tot if ss_tot != 0 else 0.0
+    
