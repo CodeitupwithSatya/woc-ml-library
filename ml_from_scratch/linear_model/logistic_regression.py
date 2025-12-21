@@ -15,7 +15,7 @@ class LogisticRegressionFromScratch:
 
     @staticmethod
     def sigmoid(z):
-        z = np.clip(z, -500, 500)  # numerical stability
+        z = np.clip(z, -500, 500)  # numerical stability...forces the value to be in a reasonable range
         return 1 / (1 + np.exp(-z))
 
     def _compute_loss(self, y, y_pred):

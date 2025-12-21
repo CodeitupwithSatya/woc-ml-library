@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 class PolynomialRegression:
     """
@@ -33,15 +34,37 @@ class PolynomialRegression:
     # -------------------------
     def _polynomial_features(self, X):
         """
-        Generate polynomial features with bias term.
+        Generate polynomial features including bias term (column of all 1s).
+        
+        For example: 
+        X = [2, 3], degree = 3
+        Output =
+        [[1, 2, 4, 8],
+        [1, 3, 9, 27]]
         """
-        X = X.reshape(-1, 1) if X.ndim == 1 else X
-        features = [np.ones((X.shape[0], 1))]
 
+        # Convert 1-D input (like [2,3,4]) into 2-D column shape (like [[2],[3],[4]])
+        if X.ndim == 1:
+            X = X.reshape(-1, 1)
+
+        n_samples = X.shape[0]      # number of rows
+        n_features = self.degree + 1  # number of polynomial columns (bias + powers)
+
+        # Create empty feature matrix filled with zeros
+        poly = np.zeros((n_samples, n_features))
+
+        # First column = 1s for bias term
+        poly[:, 0] = 1
+
+        # Fill remaining columns:
+        # poly[:, 1] = X^1
+        # poly[:, 2] = X^2
+        # ...
+        # poly[:, degree] = X^degree
         for d in range(1, self.degree + 1):
-            features.append(X ** d)
+            poly[:, d] = X[:, 0] ** d
 
-        return np.hstack(features)
+        return poly
 
     # -------------------------
     # Normalization (from your code)
@@ -69,7 +92,7 @@ class PolynomialRegression:
         self.theta = np.zeros((n, 1))
         self.cost_history = []
 
-        for _ in range(self.epochs):
+        for _ in range(self.epochs): 
             predictions = X_poly @ self.theta
             errors = predictions - y
 
@@ -94,18 +117,3 @@ class PolynomialRegression:
             X_poly[:, 1:] = (X_poly[:, 1:] - self.mean) / self.std
 
         return X_poly @ self.theta
-
-    # -------------------------
-    # Evaluation
-    # -------------------------
-    def score(self, X, y):
-        """
-        Compute R² score.
-        """
-        y = y.flatten()
-        y_pred = self.predict(X).flatten()
-
-        ss_res = np.sum((y - y_pred) ** 2)
-        ss_tot = np.sum((y - np.mean(y)) ** 2)
-
-        return 1 - ss_res / ss_tot if ss_tot != 0 else 0.0
