@@ -77,7 +77,7 @@ class PolynomialRegression:
     # -------------------------
     # Training
     # -------------------------
-    def fit(self, X, y):
+    def fit(self, X, y, verbose=True,store_every=100):
         """
         Train the model using Gradient Descent.
         """
@@ -91,6 +91,7 @@ class PolynomialRegression:
         m, n = X_poly.shape
         self.theta = np.zeros((n, 1))
         self.cost_history = []
+        self.cost_history_every100=[]
 
         for _ in range(self.epochs): 
             predictions = X_poly @ self.theta
@@ -101,6 +102,11 @@ class PolynomialRegression:
 
             cost = (1 / (2 * m)) * np.sum(errors ** 2)
             self.cost_history.append(cost)
+
+            if _ % store_every==0 or _==self.epochs-1:
+                self.cost_history_every100.append(cost)
+                if verbose:
+                    print(f"Epoch {_}: Cost = {cost}")
 
         return self
 
@@ -117,3 +123,24 @@ class PolynomialRegression:
             X_poly[:, 1:] = (X_poly[:, 1:] - self.mean) / self.std
 
         return X_poly @ self.theta
+ 
+
+    def plot_data_points(self,X,y,y_pred,Title="Data visualization"):
+       
+        plt.scatter(X,y,color='red',label='Data Points')
+        plt.plot(X,y_pred,color='blue')
+        plt.title(Title)
+        plt.xlabel('X')
+        plt.ylabel('Y')
+        plt.show()
+
+    def plot_cost_curve(self, title="Training Cost Curve"):
+        """
+        Plot the cost curve over epochs.
+        """
+        plt.plot(range(len(self.cost_history)), self.cost_history, color='blue')
+        plt.title(title)
+        plt.xlabel('Epochs')
+        plt.ylabel('Cost')
+        plt.show()
+    
